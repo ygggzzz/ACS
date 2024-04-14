@@ -6,32 +6,34 @@ import ACS.*;
 import Item.Item;
 
 public class OutputBus extends aBus implements OutputInterface{
+    private Filter filter;
     @Override
     public boolean bildToDevice(Device device) {
         return false;
     }
 
     @Override
-    public String activate() {
-        return null;
+    public String activate(String x) {
+        return x;
     }
 
     @Override
     public void outputItembyFilter(Item item) {
-
+        getDevice().insertItem(item);
     }
 
     @Override
     public boolean setFilter(Filter filter) {
-        return false;
+        this.filter=filter;
+        return true;
     }
 
     public OutputBus() {
         super();
     }
 
-    public OutputBus(Device device, Filter filter, AutoCookingSystem ACS) {
-        super(device, filter, ACS);
+    public OutputBus(Device device, AutoCookingSystem ACS) {
+        super(device ,ACS);
     }
 
     @Override
@@ -44,9 +46,9 @@ public class OutputBus extends aBus implements OutputInterface{
         super.setDevice(device);
     }
 
-    @Override
+
     public Filter getFilter() {
-        return super.getFilter();
+        return this.filter;
     }
 
     @Override
@@ -57,5 +59,17 @@ public class OutputBus extends aBus implements OutputInterface{
     @Override
     public void setACS(AutoCookingSystem ACS) {
         super.setACS(ACS);
+    }
+
+    public boolean canTransport(Item item)
+    {
+        for(Item m_item:filter.getFilterList())
+        {
+            if(item.getID()==m_item.getID())
+            {
+                return true;
+            }
+        }
+        return false;
     }
 }

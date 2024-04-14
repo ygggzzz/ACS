@@ -69,7 +69,7 @@ public class CookingDevice extends Device{
         String Source_ID; //来源设备名
         String Target_ID; //目标设备名
         Target_ID=getID();
-        for(Item item:recipe.getCanMakeList()) //这边认为每个食谱只能做一样菜
+        for(Item item:recipe.getCanMakeList()) //这里认为每个食谱只能做一样菜
         {
             for(Item m_item: item.getFormula()) //在网络中寻找需要的食材，并在对应设备中删去
             {

@@ -6,15 +6,16 @@ import Item.Item;
 import Filter.Filter;
 
 public class InputBus extends aBus implements Inputinterface{
-
+    private Filter filter;
     @Override
-    public Item inputItembyFilter() {
-        return null;
+    public Item inputItembyFilter(int x) {
+        return super.getDevice().removeItem(x);
     }
 
     @Override
     public boolean setFilter(Filter filter) {
-        return false;
+        this.filter=filter;
+        return true;
     }
 
     @Override
@@ -23,16 +24,16 @@ public class InputBus extends aBus implements Inputinterface{
     }
 
     @Override
-    public String activate() {
-        return null;
+    public String activate(String x) {
+        return x;
     }
 
     public InputBus() {
         super();
     }
 
-    public InputBus(Device device, Filter filter, AutoCookingSystem ACS) {
-        super(device, filter, ACS);
+    public InputBus(Device device,AutoCookingSystem ACS) {
+        super(device,ACS);
     }
 
     @Override
@@ -45,9 +46,9 @@ public class InputBus extends aBus implements Inputinterface{
         super.setDevice(device);
     }
 
-    @Override
+
     public Filter getFilter() {
-        return super.getFilter();
+        return this.filter;
     }
 
     @Override
@@ -59,4 +60,17 @@ public class InputBus extends aBus implements Inputinterface{
     public void setACS(AutoCookingSystem ACS) {
         super.setACS(ACS);
     }
+
+    public boolean canTransport(Item item)
+    {
+        for(Item m_item:filter.getFilterList())
+        {
+            if(item.getID()==m_item.getID())
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }

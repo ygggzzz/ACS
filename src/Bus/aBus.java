@@ -3,18 +3,20 @@ package Bus;
 import ACS.*;
 import Device.Device;
 import Filter.Filter;
+import Item.Item;
+
 public abstract class aBus {
     private Device device;
-    private Filter filter;
+    //private Filter filter;
     private AutoCookingSystem ACS;
 
 
     public aBus() {
     }
 
-    public aBus(Device device, Filter filter, AutoCookingSystem ACS) {
+    public aBus(Device device, AutoCookingSystem ACS) {
         this.device = device;
-        this.filter = filter;
+        //this.filter = filter;
         this.ACS = ACS;
     }
 
@@ -26,9 +28,9 @@ public abstract class aBus {
         this.device = device;
     }
 
-    public Filter getFilter() {
-        return filter;
-    }
+//    public Filter getFilter() {
+//        return filter;
+//    }
 
 //    public void setFilter(Filter filter) {
 //        this.filter = filter;
@@ -41,4 +43,12 @@ public abstract class aBus {
     public void setACS(AutoCookingSystem ACS) {
         this.ACS = ACS;
     }
+
+    public boolean addItem(Item item)
+    {
+        device.insertItem(item);
+        return true;
+    }
+
+
 }

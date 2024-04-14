@@ -39,8 +39,8 @@ public class RecipeProvider implements Interface,Container {
     }
 
     @Override
-    public String activate() {
-        return null;
+    public String activate(String x) {
+        return x;
     }
 
     @Override

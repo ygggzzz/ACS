@@ -7,16 +7,24 @@ import Item.Item;
 
 
 public class AutoCookingSystem {
-    private ArrayList<aBus> BusList=new ArrayList<aBus>();
+    private ArrayList<aBus> BusList=new ArrayList<aBus>(); //这边需要依据优先级来排序，需要aBus继承自定义排序
+    //供应器--内存 存储总线--寄存器 输入输出总线--输入输出设备
     private ArrayList<RecipeProvider> ProvidersList=new ArrayList<RecipeProvider>();
     private ArrayList<Item> FoodList=new ArrayList<Item>();
+    private ArrayList<Item> requestList=new ArrayList<Item>();
     private ILS Ils;
 
     public void addRequest(Item item) //添加请求
     {
-
+        requestList.add(item);
     }
 
+    public Item getRequest()
+    {
+        Item item=requestList.getFirst();
+        requestList.remove(0);
+        return item;
+    }
 
     public ArrayList<RecipeProvider> getProvidersList() {
         return ProvidersList;

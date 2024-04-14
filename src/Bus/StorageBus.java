@@ -6,37 +6,42 @@ import ACS.*;
 import Item.Item;
 
 public class StorageBus extends aBus implements Inputinterface,OutputInterface{
+    private Filter filter;
+    private AutoCookingSystem ACS;
     @Override
-    public Item inputItembyFilter() {
-        return null;
+    public Item inputItembyFilter(int x) {
+        return super.getDevice().removeItem(x);
     }
 
     @Override
     public boolean setFilter(Filter filter) {
-        return false;
+        this.filter=filter;
+        return true;
     }
 
     @Override
     public boolean bildToDevice(Device device) {
-        return false;
+        return true;
     }
 
     @Override
-    public String activate() {
-        return null;
+    public String activate(String x) {
+        return x;
     }
+
+
 
     @Override
     public void outputItembyFilter(Item item) {
-
+        getDevice().insertItem(item);
     }
 
     public StorageBus() {
         super();
     }
 
-    public StorageBus(Device device, Filter filter, AutoCookingSystem ACS) {
-        super(device, filter, ACS);
+    public StorageBus(Device device,  AutoCookingSystem ACS) {
+        super(device, ACS);
     }
 
     @Override
@@ -49,9 +54,9 @@ public class StorageBus extends aBus implements Inputinterface,OutputInterface{
         super.setDevice(device);
     }
 
-    @Override
+
     public Filter getFilter() {
-        return super.getFilter();
+        return this.filter;
     }
 
     @Override
@@ -62,5 +67,17 @@ public class StorageBus extends aBus implements Inputinterface,OutputInterface{
     @Override
     public void setACS(AutoCookingSystem ACS) {
         super.setACS(ACS);
+    }
+
+    public boolean canTransport(Item item)
+    {
+        for(Item m_item:filter.getFilterList())
+        {
+            if(item.getID()==m_item.getID())
+            {
+                return true;
+            }
+        }
+        return false;
     }
 }
