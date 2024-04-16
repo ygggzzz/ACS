@@ -5,6 +5,8 @@ import ACS.*;
 import Item.Item;
 import Filter.Filter;
 
+import java.util.Objects;
+
 public class InputBus extends aBus implements Inputinterface{
     private Filter filter;
     @Override
@@ -65,7 +67,7 @@ public class InputBus extends aBus implements Inputinterface{
     {
         for(Item m_item:filter.getFilterList())
         {
-            if(item.getID()==m_item.getID())
+            if(Objects.equals(item.getID(), m_item.getID()))
             {
                 return true;
             }

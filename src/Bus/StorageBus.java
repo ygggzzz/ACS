@@ -5,6 +5,8 @@ import Device.Device;
 import ACS.*;
 import Item.Item;
 
+import java.util.Objects;
+
 public class StorageBus extends aBus implements Inputinterface,OutputInterface{
     private Filter filter;
     private AutoCookingSystem ACS;
@@ -73,7 +75,7 @@ public class StorageBus extends aBus implements Inputinterface,OutputInterface{
     {
         for(Item m_item:filter.getFilterList())
         {
-            if(item.getID()==m_item.getID())
+            if(Objects.equals(item.getID(), m_item.getID()))
             {
                 return true;
             }
