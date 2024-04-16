@@ -3,6 +3,8 @@ package ACS;
 import Bus.*;
 import RecipeProvider.*;
 import java.util.ArrayList;
+import java.util.Objects;
+
 import Item.Item;
 
 
@@ -26,9 +28,34 @@ public class AutoCookingSystem {
         return item;
     }
 
+
+    public boolean foundFood(String Target_ID,Item m_item) //找食材去烹饪
+    {
+        for(aBus bus:getBusList())
+        {
+            if(bus instanceof InputBus) {
+                for (int i = 0; i < bus.getDevice().getStoreFoodList().size(); i++) {
+                    Item mm_item = bus.getDevice().getStoreFoodList().get(i);
+                    if (Objects.equals(m_item.getID(), mm_item.getID())) {
+                        String Source_ID = bus.getDevice().getID();
+                        sendLogisticsCommand(Source_ID, Target_ID, m_item);
+                        Item Iitem=((InputBus) bus).inputItembyFilter(i);
+                        if(Iitem !=null) {
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    public ArrayList<aBus> getBusList() {
+        return BusList;
+    }
     public ArrayList<RecipeProvider> getProvidersList() {
         return ProvidersList;
-    }
+}
 
     public void recallFood() //遍历每一个设备，将其所有的物品加入到网络中
     {

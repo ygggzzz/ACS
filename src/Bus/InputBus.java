@@ -10,8 +10,12 @@ import java.util.Objects;
 public class InputBus extends aBus implements Inputinterface{
     private Filter filter;
     @Override
-    public Item inputItembyFilter(int x) {
-        return super.getDevice().removeItem(x);
+    public Item inputItembyFilter(int x) { //不符合回溯
+        if (canTransport(getItem(x))) {
+            return super.getDevice().removeItem(x);
+        }
+
+        return null;
     }
 
     @Override

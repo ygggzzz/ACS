@@ -50,5 +50,10 @@ public abstract class aBus {
         return true;
     }
 
+    public Item getItem(int x)
+    {
+        return device.getStoreFoodList().get(x);
+    }
+
 
 }

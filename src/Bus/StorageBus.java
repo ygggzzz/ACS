@@ -11,8 +11,11 @@ public class StorageBus extends aBus implements Inputinterface,OutputInterface{
     private Filter filter;
     private AutoCookingSystem ACS;
     @Override
-    public Item inputItembyFilter(int x) {
-        return super.getDevice().removeItem(x);
+    public Item inputItembyFilter(int x) { //不符合回溯
+        if (canTransport(getItem(x))) {
+            return super.getDevice().removeItem(x);
+        }
+        return null;
     }
 
     @Override
@@ -35,8 +38,11 @@ public class StorageBus extends aBus implements Inputinterface,OutputInterface{
 
     @Override
     public void outputItembyFilter(Item item) {
-        getDevice().insertItem(item);
+        if(canTransport(item)) {
+            getDevice().insertItem(item);
+        }
     }
+
 
     public StorageBus() {
         super();

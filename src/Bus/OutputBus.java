@@ -21,7 +21,9 @@ public class OutputBus extends aBus implements OutputInterface{
 
     @Override
     public void outputItembyFilter(Item item) {
-        getDevice().insertItem(item);
+        if(canTransport(item)) {
+            getDevice().insertItem(item);
+        }
     }
 
     @Override
