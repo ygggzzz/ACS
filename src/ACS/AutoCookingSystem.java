@@ -24,6 +24,14 @@ public class AutoCookingSystem {
     public Item getRequest()
     {
         Item item=requestList.getFirst();
+        for(RecipeProvider provider:getProvidersList()) {
+            for(Item m_item:provider.getRecipe().getCanMakeList()) {
+                if(Objects.equals(item.getID(), m_item.getID())){
+                    provider.getC_device().cook();
+                }
+            }
+        }
+
         requestList.remove(0);
         return item;
     }
