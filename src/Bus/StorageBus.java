@@ -88,4 +88,5 @@ public class StorageBus extends aBus implements Inputinterface,OutputInterface{
         }
         return false;
     }
+
 }

@@ -32,12 +32,12 @@ public class AutoCookingSystem {
             }
         }
 
-        requestList.remove(0);
+        requestList.removeFirst();
         return item;
     }
 
 
-    public boolean foundFood(String Target_ID,Item m_item) //找食材去烹饪
+    public String foundFood(String Target_ID,Item m_item) //访问内存找食材去烹饪 寻找连接输入总线或存储总线的设备
     {
         for(aBus bus:getBusList())
         {
@@ -49,13 +49,27 @@ public class AutoCookingSystem {
                         sendLogisticsCommand(Source_ID, Target_ID, m_item);
                         Item Iitem=((InputBus) bus).inputItembyFilter(i);
                         if(Iitem !=null) {
-                            return true;
+                            return Source_ID;
+                        }
+                    }
+                }
+            }
+            if(bus instanceof StorageBus)
+            {
+                for (int i = 0; i < bus.getDevice().getStoreFoodList().size(); i++) {
+                    Item mm_item = bus.getDevice().getStoreFoodList().get(i);
+                    if (Objects.equals(m_item.getID(), mm_item.getID())) {
+                        String Source_ID = bus.getDevice().getID();
+                        sendLogisticsCommand(Source_ID, Target_ID, m_item);
+                        Item Iitem=((StorageBus) bus).inputItembyFilter(i);
+                        if(Iitem !=null) {
+                            return Source_ID;
                         }
                     }
                 }
             }
         }
-        return false;
+        return null;
     }
 
     public ArrayList<aBus> getBusList() {
@@ -63,7 +77,21 @@ public class AutoCookingSystem {
     }
     public ArrayList<RecipeProvider> getProvidersList() {
         return ProvidersList;
-}
+    }
+
+    public boolean removeFood(RecipeProvider provider,Item item)
+    {
+          for(int i=0;i<provider.getC_device().getStoreFoodList().size();i++)
+          {
+              Item m_item=provider.getC_device().getStoreFoodList().get(i);
+              if(Objects.equals(m_item.getID(), item.getID()))
+              {
+                  provider.getC_device().getStoreFoodList().remove(i);
+                  return true;
+              }
+          }
+          return false;
+    }
 
     public void recallFood() //遍历每一个设备，将其所有的物品加入到网络中
     {

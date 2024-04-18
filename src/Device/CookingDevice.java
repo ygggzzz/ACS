@@ -65,7 +65,7 @@ public class CookingDevice extends Device{
     }
 
     public Item cook() {
-        //String Source_ID; //来源设备名
+        String Source_ID=null; //来源设备名
         String Target_ID; //目标设备名
         Target_ID = getID();
         boolean flag = false;
@@ -73,13 +73,14 @@ public class CookingDevice extends Device{
         {
             for (Item m_item : item.getFormula()) //在网络中寻找需要的食材，并在对应设备中删去
             {
-                flag = ACS.foundFood(Target_ID, m_item);
+                Source_ID = ACS.foundFood(Target_ID, m_item);
             }
         }
-        if (flag == true) {
+        if (Source_ID != null) {
             return recipe.getCanMakeList().getFirst();
         }
-    return null;
+        System.out.println("lack food");
+        return null;
     }
 
 

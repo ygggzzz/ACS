@@ -2,6 +2,6 @@ package Bus;
 
 import Device.Device;
 public interface Interface {
-    boolean bildToDevice(Device device);
+    boolean bildToDevice(Device device);//传递图像
     String activate(String x);
 }
