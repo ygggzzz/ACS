@@ -33,13 +33,13 @@ public class RecipeProvider implements Interface,Container {
         return recipe;
     }
 
-    @Override
     public boolean bildToDevice(Device device) {
-        return false;
+        this.C_device = (CookingDevice) device;
+        return true;
     }
 
     public String activate() {
-        return this.getC_device().getID()+"Working";
+        return this.getC_device().getID()+"Working\n";
     }
 
     @Override
@@ -54,7 +54,7 @@ public class RecipeProvider implements Interface,Container {
 
     @Override
     public int getMaxCapacity() {
-        return 0;
+        return C_device.getCapacity();
     }
 
     @Override

@@ -105,17 +105,17 @@ public class CookingDevice extends Device{
         return null;
     }
 
-    public void sendItemToDevice(Item item,Device device)
-    {
-        for (int i = 0; i < getStoreFoodList().size(); i++)
-        {
-            Item m_item= getStoreFoodList().get(i);
-            if(Objects.equals(item.getID(), m_item.getID()))
-            {
-                device.insertItem(item);
-                getStoreFoodList().remove(i);
-                return ;
-            }
-        }
-    }
+//    public void sendItemToDevice(Item item,Device device)
+//    {
+//        for (int i = 0; i < getStoreFoodList().size(); i++)
+//        {
+//            Item m_item= getStoreFoodList().get(i);
+//            if(Objects.equals(item.getID(), m_item.getID()))
+//            {
+//                device.insertItem(item);
+//                getStoreFoodList().remove(i);
+//                return ;
+//            }
+//        }
+//    }
 }

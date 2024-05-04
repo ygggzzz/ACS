@@ -31,7 +31,7 @@ public class StorageBus extends aBus implements Inputinterface,OutputInterface{
     }
 
     public String activate() {
-        return this.getDevice().getID()+"Working";
+        return this.getDevice().getID()+"Working\n";
     }
 
 
@@ -48,8 +48,9 @@ public class StorageBus extends aBus implements Inputinterface,OutputInterface{
         super();
     }
 
-    public StorageBus(Device device,  AutoCookingSystem ACS) {
+    public StorageBus(Device device,Filter filter , AutoCookingSystem ACS) {
         super(device, ACS);
+        this.filter=filter;
     }
 
     @Override
@@ -73,6 +74,10 @@ public class StorageBus extends aBus implements Inputinterface,OutputInterface{
 
     public boolean canTransport(Item item)
     {
+        if(filter==null)
+        {
+            return true;
+        }
         for(Item m_item:filter.getFilterList())
         {
             if(Objects.equals(item.getID(), m_item.getID()))

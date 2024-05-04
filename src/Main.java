@@ -1,13 +1,45 @@
-/*暂未实现：
-       总线优先级
-       容积相关问题
-       递归烹饪
-       一些不符合情况条件的输出
-       能运行的主函数
-       检验输入物品是否正确
- */
+import ACS.*;
+import Bus.*;
+import Device.*;
+import Filter.*;
+import Item.*;
+import RecipeProvider.*;
+import java.util.Scanner;
+
 public class Main {
     public static void main(String[] args) {
+        //OI功能测试
+        staple cooked_rice=new staple("cooked_rice",0);
+        staple rice=new staple("rice",0);
+        freshWater freshWater=new freshWater("freshWater",0);
+
+        Recipe cook_rice=new Recipe("cooked_rice");
+        cook_rice.setFormula(rice);
+        cook_rice.setFormula(freshWater);
+
+        AutoCookingSystem ACS=new AutoCookingSystem();
+
+        Device shelf=new Device("shelf1",1000);
+        Device sink=new Device("sink2",1000);
+        CookingDevice cooker= new CookingDevice("cooker3",1000);
+
+        shelf.insertItem(rice);
+        sink.insertItem(freshWater);
+
+        Filter filter1=new Filter();
+        Filter filter2=new Filter();
+        filter2.addFilter(freshWater);
+        Filter filter3=new Filter();
+        filter3.addFilter(freshWater);
+        filter3.addFilter(rice);
+
+        StorageBus bus1=new StorageBus(shelf,filter1,ACS);
+        StorageBus bus2=new StorageBus(sink,filter2,ACS);
+        OutputBus bus3=new OutputBus(cooker,filter3,ACS);
+
+        ACS.addBus(bus1);
+        ACS.addBus(bus2);
+        ACS.addBus(bus3);
 
     }
 }

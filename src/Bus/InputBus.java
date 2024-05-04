@@ -33,7 +33,7 @@ public class InputBus extends aBus implements Inputinterface{
 
     @Override
     public String activate() {
-        return this.getDevice().getID()+"Working";
+        return this.getDevice().getID()+"Working\n";
     }
 
     public InputBus() {
@@ -66,6 +66,10 @@ public class InputBus extends aBus implements Inputinterface{
 
     public boolean canTransport(Item item)
     {
+        if(filter==null)
+        {
+            return true;
+        }
         for(Item m_item:filter.getFilterList())
         {
             if(Objects.equals(item.getID(), m_item.getID()))

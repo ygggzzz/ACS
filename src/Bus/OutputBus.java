@@ -16,7 +16,7 @@ public class OutputBus extends aBus implements OutputInterface{
     }
 
     public String activate() {
-        return this.getDevice().getID()+"Working";
+        return this.getDevice().getID()+"Working\n";
     }
 
     @Override
@@ -36,8 +36,9 @@ public class OutputBus extends aBus implements OutputInterface{
         super();
     }
 
-    public OutputBus(Device device, AutoCookingSystem ACS) {
+    public OutputBus(Device device, Filter filter,AutoCookingSystem ACS) {
         super(device ,ACS);
+        this.filter=filter;
     }
 
     @Override
@@ -63,6 +64,10 @@ public class OutputBus extends aBus implements OutputInterface{
 
     public boolean canTransport(Item item)
     {
+        if(filter==null)
+        {
+            return true;
+        }
         for(Item m_item:filter.getFilterList())
         {
             if(Objects.equals(item.getID(), m_item.getID()))

@@ -41,19 +41,6 @@ public class AutoCookingSystem {
     {
         for(aBus bus:getBusList())
         {
-            if(bus instanceof InputBus) {
-                for (int i = 0; i < bus.getDevice().getStoreFoodList().size(); i++) {
-                    Item mm_item = bus.getDevice().getStoreFoodList().get(i);
-                    if (Objects.equals(m_item.getID(), mm_item.getID())) {
-                        String Source_ID = bus.getDevice().getID();
-                        sendLogisticsCommand(Source_ID, Target_ID, m_item);
-                        Item Iitem=((InputBus) bus).inputItembyFilter(i);
-                        if(Iitem !=null) {
-                            return Source_ID;
-                        }
-                    }
-                }
-            }
             if(bus instanceof StorageBus)
             {
                 for (int i = 0; i < bus.getDevice().getStoreFoodList().size(); i++) {
@@ -64,6 +51,21 @@ public class AutoCookingSystem {
                         Item Iitem=((StorageBus) bus).inputItembyFilter(i);
                         if(Iitem !=null) {
                             return Source_ID;
+                        }
+                    }
+                }
+            }
+
+            if(bus instanceof InputBus) {
+                for (int i = 0; i < bus.getDevice().getStoreFoodList().size(); i++) {
+                    Item mm_item = bus.getDevice().getStoreFoodList().get(i);
+                    if (Objects.equals(m_item.getID(), mm_item.getID())) {
+                        String Source_ID = bus.getDevice().getID();
+                        RecipeProvider provider = ProvidersList.getFirst();
+                        Item Iitem = ((InputBus) bus).inputItembyFilter(i);
+                        if (Iitem != null) {
+                            sendLogisticsCommand(Source_ID, provider.getC_device().getID(), m_item);
+                            //return Source_ID;
                         }
                     }
                 }
@@ -94,13 +96,15 @@ public class AutoCookingSystem {
           return false;
     }
 
-    public void recallFood() //遍历每一个设备，将其所有的物品加入到网络中
+    public void recallFood() //遍历每一个存储总线，将其所有的物品加入到网络中
     {
-        for(RecipeProvider provider:ProvidersList)
+        for(aBus bus:BusList)
         {
-            for(Item item:provider.getC_device().getStoreFoodList())
+            if(bus instanceof StorageBus)
             {
-                FoodList.add(item);
+                for (Item item : bus.getDevice().getStoreFoodList()) {
+                    FoodList.add(item);
+                }
             }
         }
     }
