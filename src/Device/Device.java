@@ -2,12 +2,26 @@ package Device;
 
 import Item.Item;
 import java.util.ArrayList;
+import Bus.aBus;
 
 
 public class Device implements Container{
     private String ID;
     private ArrayList<Item> storeFoodList=new ArrayList<Item>();
     private int Capacity;
+    private ArrayList<aBus> busList=new ArrayList<aBus>();
+
+    public void setID(String ID) {
+        this.ID = ID;
+    }
+
+    public void setCapacity(int capacity) {
+        Capacity = capacity;
+    }
+
+    public void addBus(aBus bus) {
+        this.busList.add(bus);
+    }
 
     public Device(String ID, int capacity) {
         this.ID = ID;
@@ -30,6 +44,10 @@ public class Device implements Container{
     public boolean insertItem(Item item) {
         storeFoodList.add(item);
         return true;
+    }
+
+    public ArrayList<aBus> getBusList() {
+        return busList;
     }
 
     @Override

@@ -26,12 +26,14 @@ public class InputBus extends aBus implements Inputinterface{
 
     @Override
     public boolean bildToDevice(Device device) {
-        return false;
+        this.device = device;
+        this.device.addBus(this);
+        return true;
     }
 
     @Override
-    public String activate(String x) {
-        return x;
+    public String activate() {
+        return this.getDevice().getID()+"Working";
     }
 
     public InputBus() {
@@ -45,11 +47,6 @@ public class InputBus extends aBus implements Inputinterface{
     @Override
     public Device getDevice() {
         return super.getDevice();
-    }
-
-    @Override
-    public void setDevice(Device device) {
-        super.setDevice(device);
     }
 
 

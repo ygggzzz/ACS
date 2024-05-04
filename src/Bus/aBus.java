@@ -6,7 +6,7 @@ import Filter.Filter;
 import Item.Item;
 
 public abstract class aBus {
-    private Device device;
+    protected Device device;
     //private Filter filter;
     private AutoCookingSystem ACS;
 
@@ -24,9 +24,6 @@ public abstract class aBus {
         return device;
     }
 
-    public void setDevice(Device device) {
-        this.device = device;
-    }
 
 //    public Filter getFilter() {
 //        return filter;

@@ -9,14 +9,14 @@ import java.util.Objects;
 
 public class OutputBus extends aBus implements OutputInterface{
     private Filter filter;
-    @Override
     public boolean bildToDevice(Device device) {
-        return false;
+        this.device = device;
+        this.device.addBus(this);
+        return true;
     }
 
-    @Override
-    public String activate(String x) {
-        return x;
+    public String activate() {
+        return this.getDevice().getID()+"Working";
     }
 
     @Override
@@ -45,10 +45,6 @@ public class OutputBus extends aBus implements OutputInterface{
         return super.getDevice();
     }
 
-    @Override
-    public void setDevice(Device device) {
-        super.setDevice(device);
-    }
 
 
     public Filter getFilter() {

@@ -12,4 +12,5 @@ public interface Inputinterface extends Interface{
 
     boolean bildToDevice(Device device);
 
+    String activate();
 }

@@ -1,6 +1,7 @@
 package Device;
 
 import ACS.AutoCookingSystem;
+import Bus.aBus;
 import Item.Item;
 import RecipeProvider.*;
 
@@ -9,11 +10,32 @@ import java.util.Objects;
 
 public class CookingDevice extends Device{
 
-    private Recipe recipe;
     private AutoCookingSystem ACS;
 
-    public void setRecipe(Recipe recipe) {
-        this.recipe = recipe;
+    private ArrayList<Recipe> recipes=new ArrayList<Recipe>();
+
+    public void addRecipe(Recipe recipe) {
+        recipes.add(recipe);
+    }
+
+    @Override
+    public void setID(String ID) {
+        super.setID(ID);
+    }
+
+    @Override
+    public void setCapacity(int capacity) {
+        super.setCapacity(capacity);
+    }
+
+    @Override
+    public ArrayList<aBus> getBusList() {
+        return super.getBusList();
+    }
+
+    @Override
+    public void addBus(aBus bus) {
+        super.addBus(bus);
     }
 
     @Override
@@ -69,19 +91,31 @@ public class CookingDevice extends Device{
         String Target_ID; //目标设备名
         Target_ID = getID();
         //boolean flag = false;
-        for (Item item : recipe.getCanMakeList()) //这里认为每个食谱只能做一样菜
+        for (Recipe recipe : recipes) //这里认为每个食谱只能做一样菜
         {
-            for (Item m_item : item.getFormula()) //在网络中寻找需要的食材，并在对应设备中删去
+            for (Item item : recipe.getFormula()) //在网络中寻找需要的食材，并在对应设备中删去
             {
-                Source_ID = ACS.foundFood(Target_ID, m_item);
+                Source_ID = ACS.foundFood(Target_ID, item);
             }
         }
         if (Source_ID != null) {
-            return recipe.getCanMakeList().getFirst();
+            return recipes.getFirst();
         }
         System.out.println("lack food");
         return null;
     }
 
-
+    public void sendItemToDevice(Item item,Device device)
+    {
+        for (int i = 0; i < getStoreFoodList().size(); i++)
+        {
+            Item m_item= getStoreFoodList().get(i);
+            if(Objects.equals(item.getID(), m_item.getID()))
+            {
+                device.insertItem(item);
+                getStoreFoodList().remove(i);
+                return ;
+            }
+        }
+    }
 }

@@ -24,14 +24,14 @@ public class StorageBus extends aBus implements Inputinterface,OutputInterface{
         return true;
     }
 
-    @Override
     public boolean bildToDevice(Device device) {
+        this.device = device;
+        this.device.addBus(this);
         return true;
     }
 
-    @Override
-    public String activate(String x) {
-        return x;
+    public String activate() {
+        return this.getDevice().getID()+"Working";
     }
 
 
@@ -56,12 +56,6 @@ public class StorageBus extends aBus implements Inputinterface,OutputInterface{
     public Device getDevice() {
         return super.getDevice();
     }
-
-    @Override
-    public void setDevice(Device device) {
-        super.setDevice(device);
-    }
-
 
     public Filter getFilter() {
         return this.filter;

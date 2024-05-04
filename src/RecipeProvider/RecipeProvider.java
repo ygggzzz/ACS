@@ -38,9 +38,8 @@ public class RecipeProvider implements Interface,Container {
         return false;
     }
 
-    @Override
-    public String activate(String x) {
-        return x;
+    public String activate() {
+        return this.getC_device().getID()+"Working";
     }
 
     @Override
