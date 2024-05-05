@@ -76,7 +76,8 @@ public class AutoCookingSystem {
                         Item Iitem=((StorageBus) bus).inputItembyFilter(i);
                         if(Iitem !=null) {
                             sendLogisticsCommand(Source_ID, Target_ID, m_item);
-                            ((StorageBus) bus).activate();
+                            String s= ((StorageBus) bus).activate();
+                            System.out.println(s);
                             return Source_ID;
                         }
                     }

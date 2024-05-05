@@ -49,13 +49,13 @@ public class Main {
 
         cooker.addRecipe(cook_rice);
 
-        ACS.visitBus(0);
-        ACS.visitBus(1);
-        ACS.visitBus(2);
+//        ACS.visitBus(0);
+//        ACS.visitBus(1);
+//        ACS.visitBus(2);
         ACS.recallFood();
-        ACS.visitNetFood();
+//        ACS.visitNetFood();
         System.out.println();
-        ACS.visitRecipe();
+//        ACS.visitRecipe();
 
         ACS.addRequest(cooked_rice);
 
