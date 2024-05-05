@@ -27,6 +27,7 @@ public class Main {
         sink.insertItem(freshWater);
 
         Filter filter1=new Filter();
+        filter1=null;
         Filter filter2=new Filter();
         filter2.addFilter(freshWater);
         Filter filter3=new Filter();
@@ -37,9 +38,31 @@ public class Main {
         StorageBus bus2=new StorageBus(sink,filter2,ACS);
         OutputBus bus3=new OutputBus(cooker,filter3,ACS);
 
+        cooker.setACS(ACS);
+
         ACS.addBus(bus1);
         ACS.addBus(bus2);
         ACS.addBus(bus3);
+        ACS.addDevice(shelf);
+        ACS.addDevice(sink);
+        ACS.addDevice(cooker);
 
+        cooker.addRecipe(cook_rice);
+
+        ACS.visitBus(0);
+        ACS.visitBus(1);
+        ACS.visitBus(2);
+        ACS.recallFood();
+        ACS.visitNetFood();
+        System.out.println();
+        ACS.visitRecipe();
+
+        ACS.addRequest(cooked_rice);
+
+        while(!ACS.getRequestList().isEmpty())
+        {
+            Item item=ACS.getRequest();
+            System.out.println(item.getID()+" is complete");
+        }
     }
 }

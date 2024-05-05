@@ -14,6 +14,10 @@ public class CookingDevice extends Device{
 
     private ArrayList<Recipe> recipes=new ArrayList<Recipe>();
 
+    public ArrayList<Recipe> getRecipes() {
+        return recipes;
+    }
+
     public void addRecipe(Recipe recipe) {
         recipes.add(recipe);
     }

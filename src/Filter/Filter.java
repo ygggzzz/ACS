@@ -4,6 +4,9 @@ import Item.Item;
 import java.util.ArrayList;
 
 public class Filter {
+    public Filter() {
+    }
+
     private ArrayList<Item> FilterList=new ArrayList<Item>();
     public void addFilter(Item item)
     {

@@ -1,6 +1,7 @@
 package ACS;
 
 import Bus.*;
+import Device.*;
 import RecipeProvider.*;
 import java.util.ArrayList;
 import java.util.Objects;
@@ -14,11 +15,22 @@ public class AutoCookingSystem {
     private ArrayList<RecipeProvider> ProvidersList=new ArrayList<RecipeProvider>();
     private ArrayList<Item> FoodList=new ArrayList<Item>();
     private ArrayList<Item> requestList=new ArrayList<Item>();
+    private ArrayList<Device> deviceList=new ArrayList<Device>();
     private ILS Ils;
+
+    public void addDevice(Device device)
+    {
+        deviceList.add(device);
+    }
+
 
     public void addRequest(Item item) //添加请求
     {
         requestList.add(item);
+    }
+
+    public ArrayList<Item> getRequestList() {
+        return requestList;
     }
 
     public Item getRequest()
@@ -28,6 +40,20 @@ public class AutoCookingSystem {
             for(Item m_item:provider.getRecipe().getCanMakeList()) {
                 if(Objects.equals(item.getID(), m_item.getID())){
                     provider.getC_device().cook();
+                }
+            }
+        }
+
+        for(Device device:deviceList)
+        {
+            if(device instanceof CookingDevice)
+            {
+                for(Recipe recipe: ((CookingDevice) device).getRecipes())
+                {
+                    if(Objects.equals(item.getID(), recipe.getID()))
+                    {
+                        ((CookingDevice) device).cook();
+                    }
                 }
             }
         }
@@ -47,9 +73,10 @@ public class AutoCookingSystem {
                     Item mm_item = bus.getDevice().getStoreFoodList().get(i);
                     if (Objects.equals(m_item.getID(), mm_item.getID())) {
                         String Source_ID = bus.getDevice().getID();
-                        sendLogisticsCommand(Source_ID, Target_ID, m_item);
                         Item Iitem=((StorageBus) bus).inputItembyFilter(i);
                         if(Iitem !=null) {
+                            sendLogisticsCommand(Source_ID, Target_ID, m_item);
+                            ((StorageBus) bus).activate();
                             return Source_ID;
                         }
                     }
@@ -65,6 +92,7 @@ public class AutoCookingSystem {
                         Item Iitem = ((InputBus) bus).inputItembyFilter(i);
                         if (Iitem != null) {
                             sendLogisticsCommand(Source_ID, provider.getC_device().getID(), m_item);
+                            ((InputBus) bus).activate();
                             //return Source_ID;
                         }
                     }
@@ -146,11 +174,15 @@ public class AutoCookingSystem {
         System.out.println(buss.getDevice().getID());
     }
 
-    public void visitRecipe()
-    {
-        for(RecipeProvider provider:ProvidersList)
-        {
-            provider.getRecipe().visitRecipe();
+    public void visitRecipe() {
+        for (Device device: deviceList) {
+            if(device instanceof CookingDevice)
+            {
+                for(Recipe recipe: ((CookingDevice) device).getRecipes())
+                {
+                    recipe.visitFormula();
+                }
+            }
         }
     }
 
@@ -165,6 +197,7 @@ public class AutoCookingSystem {
     public boolean sendLogisticsCommand(String Source_ID,String Target_ID,Item item)
     {
         String Commend="LC-FRO_"+Source_ID+"-TO_"+Target_ID+"-SEND_"+item.getID();
+        ILS Ils=new ILS();
         Ils.itemTransport(Commend);
         return true;
     }
