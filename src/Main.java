@@ -6,6 +6,10 @@ import Item.*;
 import RecipeProvider.*;
 import java.util.Scanner;
 
+/*
+缺少第二个测试
+ */
+
 public class Main {
     public static void main(String[] args) {
         //OI功能测试
