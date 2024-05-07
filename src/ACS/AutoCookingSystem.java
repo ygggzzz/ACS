@@ -39,7 +39,12 @@ public class AutoCookingSystem {
         for(RecipeProvider provider:getProvidersList()) {
             for(Item m_item:provider.getRecipe().getCanMakeList()) {
                 if(Objects.equals(item.getID(), m_item.getID())){
-                    provider.getC_device().cook();
+                    Item iitem=provider.getC_device().cook();
+                    if(iitem!=null)
+                    {
+                        requestList.removeFirst();
+                        return item;
+                    }
                 }
             }
         }
@@ -52,14 +57,17 @@ public class AutoCookingSystem {
                 {
                     if(Objects.equals(item.getID(), recipe.getID()))
                     {
-                        ((CookingDevice) device).cook();
+                        Item iitem=((CookingDevice) device).cook();
+                        if(iitem!=null)
+                        {
+                            requestList.removeFirst();
+                            return item;
+                        }
                     }
                 }
             }
         }
-
-        requestList.removeFirst();
-        return item;
+        return null;
     }
 
 //    public String fetchFood(String Target_ID ,Item item)
@@ -218,7 +226,7 @@ public class AutoCookingSystem {
 
     public boolean sendLogisticsCommand(String Source_ID,String Target_ID,Item item)
     {
-        String Commend="LC-FRO_"+Source_ID+"-TO_"+Target_ID+"-SEND_"+item.getID();
+        String Commend="LC-FRO_"+"{"+Source_ID+"}"+"-TO_"+"{"+Target_ID+"}"+"-SEND_"+"{"+item.getID()+"}";
         ILS Ils=new ILS();
         Ils.itemTransport(Commend);
         return true;

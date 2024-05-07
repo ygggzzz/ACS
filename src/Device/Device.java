@@ -40,6 +40,11 @@ public class Device implements Container{
         return storeFoodList;
     }
 
+    public void addFood(Item item)
+    {
+        getStoreFoodList().addLast(item);
+    }
+
     @Override
     public boolean insertItem(Item item) {
         storeFoodList.add(item);

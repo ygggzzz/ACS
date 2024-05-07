@@ -41,11 +41,11 @@ public abstract class aBus {
         this.ACS = ACS;
     }
 
-    public boolean addItem(Item item)
-    {
-        device.insertItem(item);
-        return true;
-    }
+//    public boolean addItem(Item item)
+//    {
+//        device.insertItem(item);
+//        return true;
+//    }
 
     public Item getItem(int x)
     {

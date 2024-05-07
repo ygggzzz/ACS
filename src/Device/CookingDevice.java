@@ -86,6 +86,11 @@ public class CookingDevice extends Device{
         this.ACS = ACS;
     }
 
+    @Override
+    public void addFood(Item item) {
+        super.addFood(item);
+    }
+
     public CookingDevice(String ID, int capacity) {
         super(ID, capacity);
     }
@@ -128,7 +133,7 @@ public class CookingDevice extends Device{
                 }
             }
         }
-
+        addFood(recipes.getFirst());
         return recipes.getFirst();
     }
 
@@ -143,6 +148,11 @@ public class CookingDevice extends Device{
                     if(bus2 instanceof OutputBus)
                     {
                         ((OutputBus) bus2).outputItembyFilter(item);
+                    }
+
+                    if(bus2 instanceof StorageBus)
+                    {
+                        ((StorageBus) bus2).outputItembyFilter(item);
                     }
                 }
                 return item;

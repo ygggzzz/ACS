@@ -15,6 +15,9 @@ public class RecipeProvider implements Interface,Container {
         CookDevice.insertItem( this.C_device.cook());
     }
 
+    public RecipeProvider() {
+    }
+
     public RecipeProvider(CookingDevice c_device, AutoCookingSystem ACS, Recipe recipe) {
         C_device = c_device;
         this.ACS = ACS;
@@ -27,6 +30,14 @@ public class RecipeProvider implements Interface,Container {
 
     public AutoCookingSystem getACS() {
         return ACS;
+    }
+
+    public void setACS(AutoCookingSystem ACS) {
+        this.ACS = ACS;
+    }
+
+    public void setRecipe(Recipe recipe) {
+        this.recipe = recipe;
     }
 
     public Recipe getRecipe() {
