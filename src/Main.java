@@ -8,6 +8,8 @@ import java.util.Scanner;
 
 /*
 缺少第二个测试
+优先级
+对于存储总线，物品优先从低优先级处取出，并放入高优先级处。
  */
 
 public class Main {
@@ -51,6 +53,8 @@ public class Main {
         ACS.addDevice(sink);
         ACS.addDevice(cooker);
 
+        cooker.addBus(bus3);
+
         cooker.addRecipe(cook_rice);
 
 //        ACS.visitBus(0);
@@ -68,5 +72,10 @@ public class Main {
             Item item=ACS.getRequest();
             System.out.println(item.getID()+" is complete");
         }
+
+        System.out.println();
+        ACS.recallFood();
+        ACS.visitNetFood();
+        System.out.println();
     }
 }

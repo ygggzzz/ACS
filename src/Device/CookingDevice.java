@@ -1,7 +1,7 @@
 package Device;
 
 import ACS.AutoCookingSystem;
-import Bus.aBus;
+import Bus.*;
 import Item.Item;
 import RecipeProvider.*;
 
@@ -99,13 +99,87 @@ public class CookingDevice extends Device{
         {
             for (Item item : recipe.getFormula()) //在网络中寻找需要的食材，并在对应设备中删去
             {
-                Source_ID = ACS.foundFood(Target_ID, item);
+                Item test=fetchFood(Target_ID,item);
+                if(test==null)
+                {
+                    Source_ID = ACS.foundFood(Target_ID, item);
+                    if(Source_ID==null)
+                    {
+                        System.out.println("lack food");
+                        return null;
+                    }
+                    Item itest=fetchFood(Target_ID,item);
+                }
             }
         }
-        if (Source_ID != null) {
-            return recipes.getFirst();
+
+        for (Recipe recipe : recipes)
+        {
+            for (Item item : recipe.getFormula())
+            {
+                for(int i=0;i<getStoreFoodList().size();i++)
+                {
+                    Item m_item=getStoreFoodList().get(i);
+                    if(Objects.equals(item.getID(), m_item.getID()))
+                    {
+                        removeItem(i);
+                        break;
+                    }
+                }
+            }
         }
-        System.out.println("lack food");
+
+        return recipes.getFirst();
+    }
+
+    public Item fetchFood(String Target_ID,Item item)
+    {//搜索内存找食物
+        for(Item m_item:getStoreFoodList())
+        {
+            if(Objects.equals(m_item.getID(), item.getID()))
+            {
+                for(aBus bus2:getBusList())
+                {
+                    if(bus2 instanceof OutputBus)
+                    {
+                        ((OutputBus) bus2).outputItembyFilter(item);
+                    }
+                }
+                return item;
+            }
+        }
+
+        for (aBus bus : ACS.getBusList())
+        {
+            if (bus instanceof StorageBus)
+            {
+                for (int i = 0; i < bus.getDevice().getStoreFoodList().size(); i++)
+                {
+                    Item mm_item = bus.getDevice().getStoreFoodList().get(i);
+                    if (Objects.equals(item.getID(), mm_item.getID()))
+                    {
+                        String Source_ID = bus.getDevice().getID();
+                        Item Iitem = ((StorageBus) bus).inputItembyFilter(i);
+                        if (Iitem != null)
+                        {
+                            ACS.sendLogisticsCommand(Source_ID, Target_ID, item);
+                            String s = ((StorageBus) bus).activate();
+                            System.out.println(s);
+                            for(aBus bus2:getBusList())
+                            {
+                                if(bus2 instanceof OutputBus)
+                                {
+                                    System.out.println(((OutputBus) bus2).activate());
+                                    ((OutputBus) bus2).outputItembyFilter(item);
+                                }
+                            }
+                            return item;
+                        }
+                    }
+                }
+            }
+
+        }
         return null;
     }
 

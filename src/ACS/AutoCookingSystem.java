@@ -62,39 +62,56 @@ public class AutoCookingSystem {
         return item;
     }
 
+//    public String fetchFood(String Target_ID ,Item item)
+//    {
+//
+//    }
 
     public String foundFood(String Target_ID,Item m_item) //访问内存找食材去烹饪 寻找连接输入总线或存储总线的设备
     {
-        for(aBus bus:getBusList())
+        for (aBus bus : getBusList())
         {
-            if(bus instanceof StorageBus)
-            {
-                for (int i = 0; i < bus.getDevice().getStoreFoodList().size(); i++) {
-                    Item mm_item = bus.getDevice().getStoreFoodList().get(i);
-                    if (Objects.equals(m_item.getID(), mm_item.getID())) {
-                        String Source_ID = bus.getDevice().getID();
-                        Item Iitem=((StorageBus) bus).inputItembyFilter(i);
-                        if(Iitem !=null) {
-                            sendLogisticsCommand(Source_ID, Target_ID, m_item);
-                            String s= ((StorageBus) bus).activate();
-                            System.out.println(s);
-                            return Source_ID;
-                        }
-                    }
-                }
-            }
+//            if(bus instanceof StorageBus)
+//            {
+//                for (int i = 0; i < bus.getDevice().getStoreFoodList().size(); i++) {
+//                    Item mm_item = bus.getDevice().getStoreFoodList().get(i);
+//                    if (Objects.equals(m_item.getID(), mm_item.getID())) {
+//                        String Source_ID = bus.getDevice().getID();
+//                        Item Iitem=((StorageBus) bus).inputItembyFilter(i);
+//                        if(Iitem !=null) {
+//                            sendLogisticsCommand(Source_ID, Target_ID, m_item);
+//                            String s= ((StorageBus) bus).activate();
+//                            System.out.println(s);
+//                            return Source_ID;
+//                        }
+//                    }
+//                }
+//            }
 
-            if(bus instanceof InputBus) {
-                for (int i = 0; i < bus.getDevice().getStoreFoodList().size(); i++) {
+            if (bus instanceof InputBus)
+            {//存入内存
+                T:
+                for (int i = 0; i < bus.getDevice().getStoreFoodList().size(); i++)
+                {
                     Item mm_item = bus.getDevice().getStoreFoodList().get(i);
-                    if (Objects.equals(m_item.getID(), mm_item.getID())) {
+                    if (Objects.equals(m_item.getID(), mm_item.getID()))
+                    {
                         String Source_ID = bus.getDevice().getID();
-                        RecipeProvider provider = ProvidersList.getFirst();
+                        //RecipeProvider provider = ProvidersList.getFirst();
                         Item Iitem = ((InputBus) bus).inputItembyFilter(i);
-                        if (Iitem != null) {
-                            sendLogisticsCommand(Source_ID, provider.getC_device().getID(), m_item);
-                            ((InputBus) bus).activate();
-                            //return Source_ID;
+                        String Target_ID1;
+                        if (Iitem != null)
+                        {
+                            for (aBus bus2 : getBusList())
+                            {
+                                if (bus2 instanceof StorageBus)
+                                {
+                                    Target_ID1 = bus2.getDevice().getID();
+                                    sendLogisticsCommand(Source_ID, Target_ID1, m_item);
+                                    ((InputBus) bus).activate();
+                                    break T;
+                                }
+                            }
                         }
                     }
                 }
@@ -127,15 +144,18 @@ public class AutoCookingSystem {
 
     public void recallFood() //遍历每一个存储总线，将其所有的物品加入到网络中
     {
+        ArrayList<Item> m_FoodList=new ArrayList<Item>();
         for(aBus bus:BusList)
         {
             if(bus instanceof StorageBus)
             {
                 for (Item item : bus.getDevice().getStoreFoodList()) {
-                    FoodList.add(item);
+                    m_FoodList.add(item);
                 }
             }
         }
+        FoodList=m_FoodList;
+
     }
 
     public void visitNetFood() //显示网络中的食物
@@ -144,6 +164,7 @@ public class AutoCookingSystem {
         {
             System.out.print(item.getID()+" ");
         }
+        //System.out.println("visit is complete");
     }
 
 
