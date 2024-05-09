@@ -37,7 +37,7 @@ public class AutoCookingSystem {
     {
         Item item=requestList.getFirst();
         for(RecipeProvider provider:getProvidersList()) {
-            for(Item m_item:provider.getRecipe().getCanMakeList()) {
+                Recipe m_item=provider.getRecipe();
                 if(Objects.equals(item.getID(), m_item.getID())){
                     Item iitem=provider.getC_device().cook();
                     if(iitem!=null)
@@ -45,7 +45,7 @@ public class AutoCookingSystem {
                         requestList.removeFirst();
                         return item;
                     }
-                }
+
             }
         }
 
@@ -67,6 +67,7 @@ public class AutoCookingSystem {
                 }
             }
         }
+        System.out.println(requestList.removeFirst().getID()+"can not cook ");
         return null;
     }
 
@@ -199,7 +200,7 @@ public class AutoCookingSystem {
         }
         else if(buss instanceof StorageBus)
         {
-            System.out.print("Stragae ");
+            System.out.print("Storage ");
         }
         System.out.println(buss.getDevice().getID());
     }

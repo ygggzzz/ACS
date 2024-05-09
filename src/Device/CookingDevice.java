@@ -110,7 +110,7 @@ public class CookingDevice extends Device{
                     Source_ID = ACS.foundFood(Target_ID, item);
                     if(Source_ID==null)
                     {
-                        System.out.println("lack food");
+                        System.out.println(getID()+ " lack food");
                         return null;
                     }
                     Item itest=fetchFood(Target_ID,item);
