@@ -168,7 +168,9 @@ public Item fetchFood(String Target_ID,Item item)
 
 
 ## 两个测试
+![1](https://github.com/ygggzzz/ACS/assets/153978396/fd95bbe0-9fd0-41e1-9898-8cfaaf3882e4)
 
+![2](https://github.com/ygggzzz/ACS/assets/153978396/041f1f70-288a-4938-be07-d4bd524ed496)
 
 
 ```java
